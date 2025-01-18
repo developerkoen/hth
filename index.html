@@ -17,10 +17,13 @@
       font-size: 24px;
       overflow: hidden;
     }
+
     .loading {
       display: flex;
       align-items: center;
+      animation: fadeIn 1s ease-in;
     }
+
     .dots span {
       display: inline-block;
       width: 8px;
@@ -30,12 +33,32 @@
       border-radius: 50%;
       animation: blink 1.5s infinite ease-in-out;
     }
+
     .dots span:nth-child(2) {
       animation-delay: 0.3s;
     }
+
     .dots span:nth-child(3) {
       animation-delay: 0.6s;
     }
+
+    /* Fade-out animatie */
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+      }
+    }
+
+    /* Fade-in voor het begin */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
     @keyframes blink {
       0%, 20% {
         opacity: 0;
@@ -47,17 +70,24 @@
   </style>
 </head>
 <body>
-  <div class="loading">
+  <div class="loading" id="loading">
     Loading test.howtohack.nl<span class="dots">
       <span></span><span></span><span></span>
     </span>
   </div>
 
   <script>
-    // Redirect naar main.index.html na 3 seconden
+    // Start de fade-out animatie en redirect na 3 seconden
     setTimeout(() => {
-      window.location.href = "main.index.html"; // Controleer of dit bestand bestaat
-    }, 3000);
+      const loadingElement = document.getElementById("loading");
+      loadingElement.style.animation = "fadeOut 1s ease-out";
+      loadingElement.style.opacity = 0;
+
+      // Redirect na de fade-out
+      setTimeout(() => {
+        window.location.href = "main.index.html"; // Controleer of dit bestand bestaat
+      }, 1000); // Wacht tot de fade-out klaar is
+    }, 2000); // Fade-out begint na 2 seconden
   </script>
 </body>
 </html>
