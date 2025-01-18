@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loading...</title>
+  <title>Verbinding maken...</title>
   <style>
     body {
       margin: 0;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
@@ -18,38 +19,20 @@
       overflow: hidden;
     }
 
-    .loading {
-      display: flex;
-      align-items: center;
+    .status {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+
+    .indicator {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: red; /* Start op rood */
+      margin-top: 10px;
       animation: fadeIn 1s ease-in;
     }
 
-    .dots span {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      margin: 0 3px;
-      background-color: #ffffff;
-      border-radius: 50%;
-      animation: blink 1.5s infinite ease-in-out;
-    }
-
-    .dots span:nth-child(2) {
-      animation-delay: 0.3s;
-    }
-
-    .dots span:nth-child(3) {
-      animation-delay: 0.6s;
-    }
-
-    /* Fade-out animatie */
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-      }
-    }
-
-    /* Fade-in voor het begin */
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -59,35 +42,44 @@
       }
     }
 
-    @keyframes blink {
-      0%, 20% {
+    @keyframes fadeOut {
+      to {
         opacity: 0;
-      }
-      50% {
-        opacity: 1;
       }
     }
   </style>
 </head>
 <body>
-  <div class="loading" id="loading">
-    Loading test.howtohack.nl<span class="dots">
-      <span></span><span></span><span></span>
-    </span>
+  <div>
+    <div>Verbinden met howtohack.nl...</div>
+    <div class="indicator" id="indicator"></div>
+    <div class="status" id="status">Zoeken naar dichtstbijzijnde server...</div>
   </div>
 
   <script>
-    // Start de fade-out animatie en redirect na 3 seconden
-    setTimeout(() => {
-      const loadingElement = document.getElementById("loading");
-      loadingElement.style.animation = "fadeOut 1s ease-out";
-      loadingElement.style.opacity = 0;
+    const indicator = document.getElementById("indicator");
+    const statusText = document.getElementById("status");
 
-      // Redirect na de fade-out
-      setTimeout(() => {
-        window.location.href = "main.index.html"; // Controleer of dit bestand bestaat
-      }, 1000); // Wacht tot de fade-out klaar is
-    }, 2000); // Fade-out begint na 2 seconden
+    // Simuleer verbindingsfasen
+    setTimeout(() => {
+      indicator.style.backgroundColor = "red";
+      statusText.textContent = "Zoeken naar dichtstbijzijnde server...";
+    }, 0);
+
+    setTimeout(() => {
+      indicator.style.backgroundColor = "orange";
+      statusText.textContent = "Aan het contact maken met server...";
+    }, 1000); // Na 1 seconde
+
+    setTimeout(() => {
+      indicator.style.backgroundColor = "green";
+      statusText.textContent = "U bent verbonden! U wordt nu doorgestuurd...";
+    }, 3000); // Na 3 seconden
+
+    // Redirect naar hoofdpagina
+    setTimeout(() => {
+      window.location.href = "main.index.html";
+    }, 5000); // Na 5 seconden
   </script>
 </body>
 </html>
