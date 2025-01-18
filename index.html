@@ -12,46 +12,60 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: #121212;
+      background-color: #1e1e2f; /* Donkere, moderne achtergrondkleur */
       color: #ffffff;
-      font-family: Arial, sans-serif;
-      font-size: 24px;
-      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+      font-size: 18px;
+      text-align: center;
     }
 
-    .status {
-      margin-top: 20px;
-      font-size: 20px;
+    .container {
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .title {
+      font-size: 24px;
+      margin-bottom: 20px;
     }
 
     .indicator {
-      width: 20px;
-      height: 20px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
+      margin: 10px auto;
       background-color: red; /* Start op rood */
+      box-shadow: 0 0 10px 2px rgba(255, 0, 0, 0.7); /* Neon-glow effect */
+      transition: background-color 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .status {
       margin-top: 10px;
-      animation: fadeIn 1s ease-in;
+      font-size: 16px;
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
+    /* Styling voor de neon-glow per status */
+    .indicator.red {
+      background-color: red;
+      box-shadow: 0 0 15px 3px rgba(255, 0, 0, 0.8);
     }
 
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-      }
+    .indicator.orange {
+      background-color: orange;
+      box-shadow: 0 0 15px 3px rgba(255, 165, 0, 0.8);
+    }
+
+    .indicator.green {
+      background-color: green;
+      box-shadow: 0 0 15px 3px rgba(0, 255, 0, 0.8);
     }
   </style>
 </head>
 <body>
-  <div>
-    <div>Verbinden met howtohack.nl...</div>
+  <div class="container">
+    <div class="title">Verbinden met howtohack.nl...</div>
     <div class="indicator" id="indicator"></div>
     <div class="status" id="status">Zoeken naar dichtstbijzijnde server...</div>
   </div>
@@ -62,17 +76,17 @@
 
     // Simuleer verbindingsfasen
     setTimeout(() => {
-      indicator.style.backgroundColor = "red";
+      indicator.className = "indicator red"; // Rood
       statusText.textContent = "Zoeken naar dichtstbijzijnde server...";
     }, 0);
 
     setTimeout(() => {
-      indicator.style.backgroundColor = "orange";
+      indicator.className = "indicator orange"; // Oranje
       statusText.textContent = "Aan het contact maken met server...";
     }, 1000); // Na 1 seconde
 
     setTimeout(() => {
-      indicator.style.backgroundColor = "green";
+      indicator.className = "indicator green"; // Groen
       statusText.textContent = "U bent verbonden! U wordt nu doorgestuurd...";
     }, 3000); // Na 3 seconden
 
