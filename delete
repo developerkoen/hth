@@ -1,14 +1,1 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Main Page</title>
-</head>
-<body>
-  <h1>Welkom op de hoofdpagina!</h1>
-  <p>Je bent succesvol doorgestuurd vanuit de loading-pagina.</p>
-  <p> dit is een test sub domein dus dat betekent dat op dit sub domein alleen de opmaak wordt getest</p>
-  <p> mvg domein beheer van hth</p>
-</body>
-</html>
+
