@@ -1,1 +1,156 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uitleg over een tabel met kopteksten in HTML</title>
+    <style>
+        :root {
+            --primary-blue: #4A90E2;
+            --primary-green: #50C878;
+            --neutral-light-gray: #F9FAFB;
+            --neutral-dark-gray: #1F2937;
+            --text-white: #FFFFFF;
+        }
+
+        body {
+            background-color: var(--neutral-light-gray);
+            color: var(--neutral-dark-gray);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--primary-blue);
+            color: var(--text-white);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        .example {
+            background-color: var(--primary-green);
+            color: var(--text-white);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            border: 1px solid var(--neutral-dark-gray);
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        th {
+            background-color: var(--primary-blue);
+            color: var(--text-white);
+        }
+
+        td {
+            background-color: var(--neutral-light-gray);
+        }
+
+        code {
+            background-color: var(--neutral-dark-gray);
+            color: var(--text-white);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            display: block;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Uitleg over een tabel met kopteksten in HTML</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Wat is een tabel met kopteksten?</h2>
+            <p>
+                In HTML kun je een tabel maken met kolomkoppen door gebruik te maken van de <code>&lt;th&gt;</code>-tag binnen een <code>&lt;thead&gt;</code>-sectie. Dit zorgt ervoor dat de koppen van de tabel visueel duidelijker worden weergegeven.
+            </p>
+        </section>
+        <section>
+            <h2>Voorbeeld</h2>
+            <p>Hier is een voorbeeld van een tabel met kopteksten:</p>
+            <div class="example">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Naam</th>
+                            <th>Leeftijd</th>
+                            <th>Land</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Cas</td>
+                            <td>10</td>
+                            <td>Nederland</td>
+                        </tr>
+                        <tr>
+                            <td>Sofia</td>
+                            <td>16</td>
+                            <td>België</td>
+                        </tr>
+                        <tr>
+                            <td>Emma</td>
+                            <td>15</td>
+                            <td>Duitsland</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section>
+            <h2>De HTML-code</h2>
+            <p>De code voor de bovenstaande tabel met kopteksten ziet er zo uit:</p>
+            <pre>
+                <code>
+&lt;table&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Naam&lt;/th&gt;
+            &lt;th&gt;Leeftijd&lt;/th&gt;
+            &lt;th&gt;Land&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Cas&lt;/td&gt;
+            &lt;td&gt;10&lt;/td&gt;
+            &lt;td&gt;Nederland&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Sofia&lt;/td&gt;
+            &lt;td&gt;16&lt;/td&gt;
+            &lt;td&gt;België&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Emma&lt;/td&gt;
+            &lt;td&gt;15&lt;/td&gt;
+            &lt;td&gt;Duitsland&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+                </code>
+            </pre>
+        </section>
+    </main>
+</body>
+</html>
 
