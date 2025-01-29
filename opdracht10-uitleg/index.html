@@ -1,1 +1,98 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uitleg over &lt;video&gt; in HTML</title>
+    <style>
+        :root {
+            --primary-blue: #4A90E2;
+            --primary-green: #50C878;
+            --neutral-light-gray: #F9FAFB;
+            --neutral-dark-gray: #1F2937;
+            --text-white: #FFFFFF;
+        }
+
+        body {
+            background-color: var(--neutral-light-gray);
+            color: var(--neutral-dark-gray);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--primary-blue);
+            color: var(--text-white);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        .example {
+            background-color: var(--primary-green);
+            color: var(--text-white);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        video {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 8px;
+        }
+
+        code {
+            background-color: var(--neutral-dark-gray);
+            color: var(--text-white);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            display: block;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Uitleg over &lt;video&gt; in HTML</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Wat is &lt;video&gt;?</h2>
+            <p>
+                De <code>&lt;video&gt</code>
+              -tag wordt gebruikt om een video toe te voegen aan een webpagina. Dit is handig voor het tonen van instructievideo's, presentaties of media-inhoud.
+            </p>
+        </section>
+        <section>
+            <h2>Voorbeeld</h2>
+            <p>Hier is een voorbeeld van een ingesloten video:</p>
+            <div class="example">
+                <video controls>
+                    <source src="LINK VAN VIDEO" type="NAAM VIDEO.mp4">
+                    Je browser ondersteunt dit videoformaat niet.
+                </video>
+            </div>
+        </section>
+        <section>
+            <h2>De HTML-code</h2>
+            <p>De code voor de bovenstaande video ziet er zo uit:</p>
+            <pre>
+                <code>
+&lt;video controls&gt;
+    &lt;source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"&gt;
+    Je browser ondersteunt dit videoformaat niet.
+&lt;/video&gt;
+                </code>
+            </pre>
+        </section>
+    </main>
+</body>
+</html>
 
