@@ -1,1 +1,86 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uitleg over een favicon in HTML</title>
+    <link rel="icon" type="image/png" href="https://www.w3schools.com/html/img_girl.jpg">
+    <style>
+        :root {
+            --primary-blue: #4A90E2;
+            --primary-green: #50C878;
+            --neutral-light-gray: #F9FAFB;
+            --neutral-dark-gray: #1F2937;
+            --text-white: #FFFFFF;
+        }
+
+        body {
+            background-color: var(--neutral-light-gray);
+            color: var(--neutral-dark-gray);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--primary-blue);
+            color: var(--text-white);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        .example {
+            background-color: var(--primary-green);
+            color: var(--text-white);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        code {
+            background-color: var(--neutral-dark-gray);
+            color: var(--text-white);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            display: block;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Uitleg over een favicon in HTML</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Wat is een favicon?</h2>
+            <p>
+                Een favicon is een klein pictogram dat wordt weergegeven in het tabblad van je browser. Dit helpt bij herkenbaarheid van een website.
+            </p>
+        </section>
+        <section>
+            <h2>Voorbeeld</h2>
+            <p>Als je naar de tab van deze pagina kijkt, zie je een favicon!</p>
+            <div class="example">
+                <img src="https://www.w3schools.com/html/img_girl.jpg" alt="Voorbeeld favicon" width="100">
+            </div>
+        </section>
+        <section>
+            <h2>De HTML-code</h2>
+            <p>De code om een favicon toe te voegen ziet er zo uit:</p>
+            <pre>
+                <code>
+&lt;link rel="icon" type="image/png" href="https://www.w3schools.com/html/img_girl.jpg"&gt;
+                </code>
+            </pre>
+        </section>
+    </main>
+</body>
+</html>
 
