@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uitleg over een knop (&lt;button&gt;) in HTML</title>
+    <style>
+        :root {
+            --primary-blue: #4A90E2;
+            --primary-green: #50C878;
+            --neutral-light-gray: #F9FAFB;
+            --neutral-dark-gray: #1F2937;
+            --text-white: #FFFFFF;
+        }
+
+        body {
+            background-color: var(--neutral-light-gray);
+            color: var(--neutral-dark-gray);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--primary-blue);
+            color: var(--text-white);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        .example {
+            background-color: var(--primary-green);
+            color: var(--text-white);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        button {
+            background-color: var(--primary-blue);
+            color: var(--text-white);
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--primary-green);
+        }
+
+        code {
+            background-color: var(--neutral-dark-gray);
+            color: var(--text-white);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            display: block;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Uitleg over een knop (&lt;button&gt;) in HTML</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Wat is een knop?</h2>
+            <p>
+                Met de <code>&lt;button&gt;</code>-tag kun je een klikbare knop maken. Dit kan gebruikt worden voor acties zoals het verzenden van formulieren, het uitvoeren van scripts, of het navigeren naar een andere pagina.
+            </p>
+        </section>
+        <section>
+            <h2>Voorbeeld</h2>
+            <p>Hier is een voorbeeld van een knop:</p>
+            <div class="example">
+                <button onclick="alert('Je hebt op de knop geklikt!')">Klik hier</button>
+            </div>
+        </section>
+        <section>
+            <h2>De HTML- en CSS-code</h2>
+            <p>De code voor de bovenstaande knop ziet er zo uit:</p>
+            <pre>
+                <code>
+&lt;!-- HTML --&gt;
+&lt;button onclick="alert('Je hebt op de knop geklikt!')"&gt;Klik hier&lt;/button&gt;
+
+&lt;!-- CSS --&gt;
+button {
+    background-color: #4A90E2; /* Blauw */
+    color: #FFFFFF; /* Witte tekst */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #50C878; /* Groen */
+}
+                </code>
+            </pre>
+        </section>
+    </main>
+</body>
+</html>
