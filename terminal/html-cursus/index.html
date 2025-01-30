@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live HTML Editor</title>
+    <style>
+        :root {
+            --primary-blue: #4A90E2;
+            --primary-green: #50C878;
+            --neutral-light-gray: #F9FAFB;
+            --neutral-dark-gray: #1F2937;
+            --text-white: #FFFFFF;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--text-white);
+            color: var(--neutral-dark-gray);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            background-color: var(--neutral-dark-gray);
+            color: var(--text-white);
+            border: 1px solid var(--primary-blue);
+            padding: 10px;
+            font-family: monospace;
+            font-size: 14px;
+            border-radius: 5px;
+            resize: vertical;
+        }
+
+        .editor-container {
+            background-color: var(--primary-blue);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .editor-container label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-white);
+        }
+
+        iframe {
+            width: 100%;
+            height: 300px;
+            background-color: var(--neutral-light-gray);
+            border: 1px solid var(--primary-green);
+            border-radius: 5px;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--neutral-dark-gray);
+        }
+    </style>
+</head>
+<body>
+    <h1>Live HTML Editor</h1>
+    <script>
+        function updatePreview() {
+            const html = document.getElementById("html").value;
+            const previewFrame = document.getElementById("preview");
+            const previewDocument = previewFrame.contentDocument || previewFrame.contentWindow.document;
+            previewDocument.open();
+            previewDocument.write(html);
+            previewDocument.close();
+        }
+    </script>
+    <div class="container">
+        <div class="editor-container">
+            <label for="html">HTML</label>
+            <textarea id="html" oninput="updatePreview()"></textarea>
+        </div>
+        <h2>Live Preview</h2>
+        <iframe id="preview"></iframe>
+    </div>
+    <footer>
+        How to Hack | HTML Cursus
+    </footer>
+</body>
+</html>
