@@ -1,601 +1,148 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Leeromgeving</title>
-    <style>
-        :root {
-            --primary-blue: #4A90E2;
-            --primary-green: #50C878;
-            --neutral-light-gray: #F9FAFB;
-            --neutral-dark-gray: #1F2937;
-            --text-white: #FFFFFF;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeBlocks Python Editor</title>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.21.3/full/pyodide.js"></script>
+  <style>
+    body {
+      background-color: #02012F;
+      color: #E5E7EB;
+      font-family: 'Fira Code', monospace;
+      padding: 40px 20px;
+      max-width: 800px;
+      margin: auto;
+    }
 
-        body {
-            font-family: 'Lato', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--neutral-light-gray);
-            color: var(--neutral-dark-gray);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #4fc3f7, #81c784);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        header {
-            background-color: var(--primary-blue);
-            color: var(--text-white);
-            text-align: center;
-            padding: 20px;
-            position: relative;
-        }
+    textarea#editor {
+      width: 100%;
+      height: 220px;
+      background: #0f0f3f;
+      color: #ffffff;
+      border: 2px solid #2c2c70;
+      border-radius: 8px;
+      padding: 15px;
+      font-size: 16px;
+      line-height: 1.4;
+      resize: vertical;
+      transition: border 0.3s ease;
+    }
 
-        .dashboard, .terminal-container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 30px auto;
-            background-color: var(--text-white);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
+    textarea#editor:focus {
+      outline: none;
+      border-color: #4fc3f7;
+    }
 
-        .assignments {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
+    button {
+      background: linear-gradient(135deg, #1e90ff, #00bcd4);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+      margin-right: 10px;
+      transition: background 0.3s ease, transform 0.2s;
+    }
 
-        .card {
-            background-color: var(--neutral-light-gray);
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
+    button:hover {
+      background: linear-gradient(135deg, #2196f3, #26c6da);
+      transform: translateY(-2px);
+    }
 
-        .card button {
-            background-color: var(--primary-green);
-            color: var(--text-white);
-            border: none;
-            padding: 12px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
+    #output {
+      margin-top: 25px;
+      background: #111144;
+      border: 1px solid #2c2c70;
+      padding: 15px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+      min-height: 120px;
+      font-size: 15px;
+      transition: background 0.3s ease;
+    }
 
-        .card button:hover {
-            background-color: var(--primary-blue);
-            transform: scale(1.05);
-            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
-        }
+    h2 {
+      margin-top: 30px;
+      color: #90caf9;
+    }
 
-        .card button:active {
-            transform: scale(0.98);
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-        }
+    ::selection {
+      background: #4fc3f7;
+      color: black;
+    }
 
-        .card button:focus {
-            outline: none;
-            border: 2px solid var(--primary-blue);
-        }
-
-        /* Stijl voor knoppen in de opdrachten */
-        #assignment-container button {
-            background-color: var(--primary-green);
-            color: var(--text-white);
-            border: none;
-            padding: 12px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        #assignment-container button:hover {
-            background-color: var(--primary-blue);
-            transform: scale(1.05);
-            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        #assignment-container button:active {
-            transform: scale(0.98);
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        #assignment-container button:focus {
-            outline: none;
-            border: 2px solid var(--primary-blue);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 10;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: var(--text-white);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            max-width: 600px;
-        }
-
-        .close {
-            float: right;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        #code-editor {
-            width: 100%;
-            height: 150px;
-            padding: 10px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 16px;
-            border: 1px solid var(--primary-blue);
-            border-radius: 8px;
-        }
-
-        #output {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: var(--neutral-light-gray);
-            border-radius: 8px;
-            min-height: 200px;
-            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
-        }
-    </style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+  </style>
 </head>
 <body>
-    <header>
-        <h1>HTML Leeromgeving</h1>
-        <p>Leer HTML door interactieve opdrachten!</p>
-        <button class="custom-button" onclick="window.location.href='https://test.howtohack.nl/terminal/html-cursus/';">
-    open world script zonder een opdracht (beta 1.3)
-</button>
+  <h1>🧪 CodeBlocks Python Terminal</h1>
+  <textarea id="editor">print("Hallo, wereld!")</textarea>
+  <br />
+  <button onclick="runPython()">▶️ Run code</button>
+  <button onclick="saveCode()">💾 Opslaan</button>
+  <h2>📤 Uitvoer:</h2>
+  <div id="output">(Resultaat verschijnt hier)</div>
 
-    </header>
+  <script>
+    let pyodide;
+    async function main() {
+      pyodide = await loadPyodide();
+      loadSavedCode();
+    }
+    main();
 
-    <div id="dashboard" class="dashboard">
-        <h2>Opdrachten</h2>
-        <div class="assignments" id="assignments"></div>
-    </div>
+    async function runPython() {
+      const code = document.getElementById("editor").value;
+      let outputDiv = document.getElementById("output");
+      outputDiv.innerText = "";
 
-    <div id="assignment-container" class="terminal-container" style="display: none;">
-        <h3 id="assignment-title"></h3>
-        <p id="assignment-description"></p>
-        <button onclick="showExplanation(currentAssignmentId)">Uitleg</button>
-        <textarea id="code-editor" placeholder="Typ hier je HTML-code..."></textarea>
-        <button onclick="checkCode()">Controleer</button>
-        <button onclick="saveCode()">Opslaan</button>
-        <button onclick="goToDashboard()">Terug naar Dashboard</button>
-        <div id="output"></div>
-    </div>
+      try {
+        let outputText = "";
+        let originalPrint = console.log;
+        console.log = (msg) => {
+          outputText += msg + "\n";
+          outputDiv.innerText = outputText;
+        };
 
-    <div id="explanation-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h3 id="explanation-title"></h3>
-            <p id="explanation-text"></p>
-            <pre><code id="explanation-code"></code></pre>
-        </div>
-    </div>
+        await pyodide.runPythonAsync(`
+import sys
+from js import console
+class OutputCatcher:
+  def write(self, s):
+    if s.strip() != "":
+      console.log(s)
+  def flush(self):
+    pass
+sys.stdout = sys.stderr = OutputCatcher()
+` + code);
 
-    <script>
-        const assignments = [
-            {
-                id: 1,
-                title: "Opdracht 1: Maak een kop",
-                description: "Schrijf een eenvoudige HTML-pagina met een <h1> die de tekst 'Welkom bij HTML' bevat.",
-                example: "<h1>Welkom bij HTML</h1>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const h1 = doc.querySelector('h1');
-                    if (h1 && h1.outerHTML.includes('</h1>')) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een <h1> toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen <h1> tag of de sluitingstag ontbreekt.</p>";
-                    }
-                }
-            },
-            {
-                id: 2,
-                title: "Opdracht 2: Paragraaf toevoegen",
-                description: "Voeg een paragraaf toe onder de kop die uitlegt waar de website over gaat.",
-                example: "<h1>Welkom bij HTML</h1><p>Deze website leert je HTML!</p>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const p = doc.querySelector('p');
-                    if (p && p.outerHTML.includes('</p>')) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een <p> toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen <p> tag of de sluitingstag ontbreekt.</p>";
-                    }
-                }
-            },
-            {
-                id: 3,
-                title: "Opdracht 3: Voeg een afbeelding toe",
-                description: "Voeg een afbeelding toe aan je pagina.",
-                example: "<img src='voorbeeld.jpg' alt='voorbeeldafbeelding'/>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const img = doc.querySelector('img');
-                    if (img && img.src.includes('.jpg')) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een afbeelding toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen afbeelding of het src attribuut ontbreekt.</p>";
-                    }
-                }
-            },
-            {
-                id: 4,
-                title: "Opdracht 4: Maak een lijst",
-                description: "Maak een lijst met minimaal 3 items.",
-                example: "<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const ul = doc.querySelector('ul');
-                    if (ul && ul.children.length >= 3) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een lijst met minimaal 3 items gemaakt.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen lijst of niet genoeg items.</p>";
-                    }
-                }
-            },
-            {
-                id: 5,
-                title: "Opdracht 5: Maak een link",
-                description: "Maak een link naar een externe website.",
-                example: "<a href='https://www.google.com'>Google</a>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const a = doc.querySelector('a');
-                    if (a && a.href) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een link toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen link toegevoegd.</p>";
-                    }
-                }
-            },
-            {
-                id: 6,
-                title: "Opdracht 6: Voeg een form toe",
-                description: "Maak een formulier met een tekstvak en een knop.",
-                example: "<form><input type='text'><button type='submit'>Verzenden</button></form>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const form = doc.querySelector('form');
-                    if (form && form.querySelector('input[type="text"]') && form.querySelector('button')) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een formulier toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen formulier met de vereiste velden.</p>";
-                    }
-                }
-            },
-            {
-                id: 7,
-                title: "Opdracht 7: Voeg een footer toe",
-                description: "Voeg een footer toe met een copyrighttekst.",
-                example: "<footer>&copy; 2025 Mijn Website</footer>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const footer = doc.querySelector('footer');
-                    if (footer && footer.innerHTML.includes('&copy;')) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een footer toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen footer of de copyrighttekst ontbreekt.</p>";
-                    }
-                }
-            },
-            {
-                id: 8,
-                title: "Opdracht 8: Voeg een tabel toe",
-                description: "Maak een eenvoudige tabel met 2 rijen en 2 kolommen.",
-                example: "<table><tr><td>Cell 1</td><td>Cell 2</td></tr><tr><td>Cell 3</td><td>Cell 4</td></tr></table>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const table = doc.querySelector('table');
-                    if (table && table.rows.length >= 2 && table.rows[0].cells.length >= 2) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een tabel toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen tabel of het aantal rijen/kolommen is niet correct.</p>";
-                    }
-                }
-            },
-            {
-                id: 9,
-                title: "Opdracht 9: Voeg een achtergrondkleur toe",
-                description: "Voeg een achtergrondkleur toe aan de body van de pagina.",
-                example: "<body style='background-color: #f0f0f0;'>...</body>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const body = doc.querySelector('body');
-                    if (body && body.style.backgroundColor) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een achtergrondkleur toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen achtergrondkleur toegevoegd.</p>";
-                    }
-                }
-            },
-            {
-                id: 10,
-                title: "Opdracht 10: Voeg een video in",
-                description: "Voeg een video toe aan je pagina.",
-                example: "<video width='320' height='240' controls><source src='movie.mp4' type='video/mp4'>Je browser ondersteunt deze video niet.</video>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const video = doc.querySelector('video');
-                    if (video && video.src) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een video toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen video toegevoegd of het src attribuut ontbreekt.</p>";
-                    }
-                }
-            },
-            {
-                id: 11,
-                title: "Opdracht 11: Voeg een audio toe",
-                description: "Voeg een audio-bestand toe dat kan worden afgespeeld.",
-                example: "<audio controls><source src='audio.mp3' type='audio/mp3'>Je browser ondersteunt deze audio niet.</audio>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const audio = doc.querySelector('audio');
-                    if (audio && audio.src) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een audio toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen audio toegevoegd of het src attribuut ontbreekt.</p>";
-                    }
-                }
-            },
-            {
-                id: 12,
-                title: "Opdracht 12: Voeg een link toe naar een e-mailadres",
-                description: "Maak een link naar een e-mailadres.",
-                example: "<a href='mailto:voorbeeld@domein.com'>Stuur een e-mail</a>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const a = doc.querySelector('a');
-                    if (a && a.href.includes('mailto:')) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een e-mail link toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen e-mail link toegevoegd.</p>";
-                    }
-                }
-            },
-            {
-                id: 13,
-                title: "Opdracht 13: Voeg een tekstkleur toe",
-                description: "Pas de tekstkleur aan naar een andere kleur.",
-                example: "<p style='color: red;'>Dit is een rode tekst</p>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const p = doc.querySelector('p');
-                    if (p && p.style.color) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt de tekstkleur aangepast.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen tekstkleur aangepast.</p>";
-                    }
-                }
-            },
-            {
-                id: 14,
-                title: "Opdracht 14: Maak een tabel met kopteksten",
-                description: "Maak een tabel met kopteksten en rijen.",
-                example: "<table><tr><th>Naam</th><th>Leeftijd</th></tr><tr><td>John</td><td>30</td></tr></table>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const table = doc.querySelector('table');
-                    const th = table.querySelectorAll('th');
-                    if (table && th.length >= 2) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een tabel met kopteksten gemaakt.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen tabel met kopteksten gemaakt.</p>";
-                    }
-                }
-            },
-            {
-                id: 15,
-                title: "Opdracht 15: Voeg een scrollbare inhoud toe",
-                description: "Maak een div met een vaste hoogte en voeg een scrollbalk toe.",
-                example: "<div style='height: 100px; overflow-y: scroll;'>...</div>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const div = doc.querySelector('div');
-                    if (div && div.style.height && div.style.overflowY === 'scroll') {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een scrollbare inhoud toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen scrollbare inhoud toegevoegd.</p>";
-                    }
-                }
-            },
-            {
-                id: 16,
-                title: "Opdracht 16: Voeg een knop toe",
-                description: "Maak een knop die iets uitvoert wanneer erop wordt geklikt.",
-                example: "<button onclick='alert(\"Je hebt geklikt!\")'>Klik mij</button>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const button = doc.querySelector('button');
-                    if (button && button.onclick) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een knop toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen knop toegevoegd of de klikactie ontbreekt.</p>";
-                    }
-                }
-            },
-            {
-                id: 17,
-                title: "Opdracht 17: Voeg een media query toe",
-                description: "Voeg een media query toe om de pagina te laten reageren op de schermgrootte.",
-                example: "<style>@media (max-width: 600px) { body { background-color: lightblue; } }</style>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const style = doc.querySelector('style');
-                    if (style && style.innerHTML.includes('@media')) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een media query toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen media query toegevoegd.</p>";
-                    }
-                }
-            },
-            {
-                id: 18,
-                title: "Opdracht 18: Voeg een favicon toe",
-                description: "Voeg een favicon toe aan de website.",
-                example: "<link rel='icon' href='favicon.ico'>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const link = doc.querySelector('link[rel="icon"]');
-                    if (link && link.href) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een favicon toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen favicon toegevoegd.</p>";
-                    }
-                }
-            },
-            {
-                id: 19,
-                title: "Opdracht 19: Informatie over jezelf",
-                description: "Maak een pagina over jezelf met een kop en een paar alinea's.",
-                example: "<h1>Mijn naam is John</h1><p>Ik ben 30 jaar oud en ik hou van programmeren.</p>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const h1 = doc.querySelector('h1');
-                    const p = doc.querySelector('p');
-                    if (h1 && p) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een kop en een paragraaf toegevoegd.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen kop of paragraaf toegevoegd.</p>";
-                    }
-                }
-            },
-            {
-                id: 20,
-                title: "Opdracht 20: Portfolio",
-                description: "Maak een portfolio-pagina met je werk, inclusief afbeeldingen en beschrijvingen.",
-                example: "<h1>Mijn Portfolio</h1><img src='project1.jpg' alt='Project 1'><p>Beschrijving van project 1.</p>",
-                check: function(code) {
-                    const output = document.getElementById("output");
-                    const doc = new DOMParser().parseFromString(code, 'text/html');
-                    const h1 = doc.querySelector('h1');
-                    const img = doc.querySelector('img');
-                    const p = doc.querySelector('p');
-                    if (h1 && img && p) {
-                        output.innerHTML = "<p style='color: green;'>Goed gedaan! Je hebt een portfolio gemaakt.</p>";
-                    } else {
-                        output.innerHTML = "<p style='color: red;'>Je hebt geen volledige portfolio gemaakt met een kop, afbeelding en beschrijving.</p>";
-                    }
-                }
-            }
-        ];
+        console.log = originalPrint;
+      } catch (err) {
+        outputDiv.innerText = "❌ Fout: " + err;
+      }
+    }
 
-        let currentAssignmentId = null;
+    function saveCode() {
+      const code = document.getElementById("editor").value;
+      localStorage.setItem("codeblocks_lesson1", code);
+      alert("Code opgeslagen in je browser!");
+    }
 
-        function loadAssignments() {
-            const assignmentsContainer = document.getElementById("assignments");
-            assignmentsContainer.innerHTML = "";
-
-            assignments.forEach(assignment => {
-                const div = document.createElement("div");
-                div.className = "card";
-                div.innerHTML = `
-                    <h4>${assignment.title}</h4>
-                    <button onclick="startAssignment(${assignment.id})">Start</button>
-                    <button onclick="showExplanation(${assignment.id})">Uitleg</button>
-                `;
-                assignmentsContainer.appendChild(div);
-            });
-        }
-
-        function startAssignment(id) {
-            currentAssignmentId = id;
-            const assignment = assignments.find(a => a.id === id);
-            document.getElementById("assignment-title").textContent = assignment.title;
-            document.getElementById("assignment-description").textContent = assignment.description;
-            document.getElementById("dashboard").style.display = "none";
-            document.getElementById("assignment-container").style.display = "block";
-            loadSavedCode();
-        }
-
-        function loadSavedCode() {
-            const savedCode = localStorage.getItem(`assignment-${currentAssignmentId}`);
-            if (savedCode) {
-                document.getElementById("code-editor").value = savedCode;
-            }
-        }
-
-        function saveCode() {
-            const code = document.getElementById("code-editor").value;
-            localStorage.setItem(`assignment-${currentAssignmentId}`, code);
-            alert("Code opgeslagen!");
-        }
-
-        function checkCode() {
-            const code = document.getElementById("code-editor").value;
-            const output = document.getElementById("output");
-
-            // Maak de uitvoer leeg voordat we de nieuwe inhoud tonen
-            output.innerHTML = "";
-
-            // Vind de opdracht en voer de bijbehorende controle uit
-            const assignment = assignments.find(a => a.id === currentAssignmentId);
-            assignment.check(code);
-        }
-
-        function showExplanation(id) {
-            const assignment = assignments.find(a => a.id === id);
-            document.getElementById("explanation-title").textContent = assignment.title;
-            document.getElementById("explanation-text").textContent = assignment.description;
-            document.getElementById("explanation-code").textContent = assignment.example;
-            document.getElementById("explanation-modal").style.display = "flex";
-        }
-
-        function closeModal() {
-            document.getElementById("explanation-modal").style.display = "none";
-        }
-
-        function goToDashboard() {
-            document.getElementById("assignment-container").style.display = "none";
-            document.getElementById("dashboard").style.display = "block";
-        }
-
-        loadAssignments();
-    </script>
+    function loadSavedCode() {
+      const saved = localStorage.getItem("codeblocks_lesson1");
+      if (saved) document.getElementById("editor").value = saved;
+    }
+  </script>
 </body>
 </html>
